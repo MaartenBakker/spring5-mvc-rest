@@ -13,18 +13,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.containsString;
+
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.*;
 
 public class VendorServiceImplTest {
 
     public static final String URL_VENDORS = "/api/v1/vendors";
     public static final String URL_VENDORS_ID_1 = URL_VENDORS + "/1";
     public static final Long ID = 1L;
+    public static final Long ID_2 = 2L;
     public static final String VENDOR_NAME = "Pot Vendory";
+    public static final String VENDOR_NAME_2 = "Pot Vendory 2";
 
     VendorService vendorService;
 
@@ -113,6 +118,24 @@ public class VendorServiceImplTest {
 
     @Test
     public void updateVendorById() {
+        //given
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName(VENDOR_NAME);
+
+        Vendor vendor = getVendor1();
+
+        given(vendorRepository.findById(anyLong())).willReturn(Optional.of(vendor));
+        given(vendorRepository.save(any(Vendor.class))).willReturn(vendor);
+
+        //when
+
+        VendorDTO savedVendorDTO = vendorService.updateVendorById(ID, vendorDTO);
+
+        //then
+        // 'should' defaults to times = 1
+        then(vendorRepository).should().save(any(Vendor.class));
+        then(vendorRepository).should(times(1)).findById(anyLong());
+        assertThat(savedVendorDTO.getVendorUrl(), containsString("1"));
     }
 
     @Test
@@ -120,5 +143,19 @@ public class VendorServiceImplTest {
         vendorService.deleteVendorById(ID);
 
         verify(vendorRepository).deleteById(anyLong());
+    }
+
+    private Vendor getVendor1() {
+        Vendor vendor = new Vendor();
+        vendor.setName(VENDOR_NAME);
+        vendor.setId(ID);
+        return vendor;
+    }
+
+    private Vendor getVendor2() {
+        Vendor vendor = new Vendor();
+        vendor.setName(VENDOR_NAME_2);
+        vendor.setId(ID_2);
+        return vendor;
     }
 }

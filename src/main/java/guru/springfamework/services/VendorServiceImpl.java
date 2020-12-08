@@ -74,8 +74,15 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public VendorDTO updateVendorById(Long Id, VendorDTO vendorDTO) {
-        return null;
-    }
+        return vendorRepository.findById(Id)
+                .map(vendor -> {
+
+                    if(vendorDTO.getName() != null){
+                        vendor.setName(vendorDTO.getName());
+                    }
+
+                    return saveAndReturnDTO(vendor);
+                }).orElseThrow(ResourceNotFoundException::new);    }
 
     @Override
     public void deleteVendorById(Long Id) {
