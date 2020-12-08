@@ -1,4 +1,4 @@
-package guru.springfamework.controllers;
+package guru.springfamework.controllers.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
