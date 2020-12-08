@@ -6,8 +6,11 @@ import guru.springfamework.api.v1.model.VendorDTO;
 import guru.springfamework.repositories.VendorRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VendorServiceImpl implements VendorService {
+    public static final String VENDORS_URL = "/api/v1/vendors";
+
     private VendorRepository vendorRepository;
     private VendorMapper vendorMapper;
 
@@ -16,9 +19,22 @@ public class VendorServiceImpl implements VendorService {
         this.vendorMapper = vendorMapper;
     }
 
+    private VendorDTO addUrlToVendorDTO(VendorDTO vendorDTO, Long Id) {
+        vendorDTO.setVendorUrl(VENDORS_URL + "/" + Id);
+
+        return  vendorDTO;
+    }
+
     @Override
     public List<VendorDTO> getAllVendors() {
-        return null;
+        return vendorRepository
+                .findAll()
+                .stream()
+                .map(vendor -> {
+                    VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
+                    return addUrlToVendorDTO(vendorDTO, vendor.getId());
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
