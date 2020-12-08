@@ -92,6 +92,22 @@ public class VendorServiceImplTest {
 
     @Test
     public void replaceVendorById() {
+        //given
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName(VENDOR_NAME);
+
+        Vendor savedVendor = new Vendor();
+        savedVendor.setName(vendorDTO.getName());
+        savedVendor.setId(ID);
+
+        when(vendorRepository.save(any(Vendor.class))).thenReturn(savedVendor);
+
+        //when
+        VendorDTO savedDTO = vendorService.replaceVendorById(ID, vendorDTO);
+
+        //then
+        assertEquals(vendorDTO.getName(), savedDTO.getName());
+        assertEquals(URL_VENDORS_ID_1, savedDTO.getVendorUrl());
     }
 
     @Test
