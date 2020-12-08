@@ -42,4 +42,10 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.saveCustomerByDTO(userId, customerDTO), HttpStatus.OK);
     }
 
+    @PatchMapping("/{userId}")
+    public ResponseEntity<CustomerDTO> patchCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable Long userId) {
+
+        return new ResponseEntity<>(customerService.patchCustomer(userId, customerDTO), HttpStatus.OK);
+    }
+
 }

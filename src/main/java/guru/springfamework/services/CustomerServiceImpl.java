@@ -12,12 +12,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+    public static final String CUSTOMERS_URL = "/api/v1/customers/";
+
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
     public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
+    }
+
+    private CustomerDTO addCustomerUrlToDTO(CustomerDTO customerDTO, Long id) {
+        customerDTO.setCustomerUrl(CUSTOMERS_URL + id);
+
+        return customerDTO;
     }
 
     @Override
@@ -28,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl("/api/v1/customers/" + customer.getId());
+                    addCustomerUrlToDTO(customerDTO, customer.getId());
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
@@ -38,7 +46,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomerById(Long id) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
 
-        return customerOptional.map(customerMapper::customerToCustomerDTO).orElse(null);
+        return customerOptional
+                .map(customerMapper::customerToCustomerDTO)
+                .map(customer -> addCustomerUrlToDTO(customer, id)).orElse(null);
     }
 
     @Override
@@ -53,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(savedCustomer);
 
-        returnDTO.setCustomerUrl("/api/v1/customers/" + savedCustomer.getId());
+        addCustomerUrlToDTO(returnDTO, savedCustomer.getId());
 
         return returnDTO;
     }
@@ -77,7 +87,11 @@ public class CustomerServiceImpl implements CustomerService {
                customer.setLastName(customerDTO.getLastName());
            }
 
-           return customerMapper.customerToCustomerDTO(customerRepository.save(customer));
+           CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
+           addCustomerUrlToDTO(returnDTO, id);
+
+           return returnDTO;
+
         }).orElseThrow(RuntimeException::new);
     }
 }
