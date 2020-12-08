@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/api/v1/customers")
+@RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
-
+    public static final String BASE_URL = "/api/v1/customers";
     private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
@@ -46,6 +46,13 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> patchCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable Long userId) {
 
         return new ResponseEntity<>(customerService.patchCustomer(userId, customerDTO), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long userId) {
+        customerService.deleteCustomerById(userId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
