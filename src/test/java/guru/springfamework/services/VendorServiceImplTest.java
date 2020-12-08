@@ -16,6 +16,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class VendorServiceImplTest {
@@ -116,5 +117,8 @@ public class VendorServiceImplTest {
 
     @Test
     public void deleteVendorById() {
+        vendorService.deleteVendorById(ID);
+
+        verify(vendorRepository).deleteById(anyLong());
     }
 }

@@ -79,6 +79,6 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public void deleteVendorById(Long Id) {
-
+        vendorRepository.deleteById(Id);
     }
 }
