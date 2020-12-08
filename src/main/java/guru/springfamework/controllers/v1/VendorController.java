@@ -2,6 +2,7 @@ package guru.springfamework.controllers.v1;
 
 import guru.springfamework.api.v1.model.VendorListDTO;
 import guru.springfamework.services.VendorService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
+    @GetMapping
     public VendorListDTO listVendors() {
         return new VendorListDTO(vendorService.getAllVendors());
     }
