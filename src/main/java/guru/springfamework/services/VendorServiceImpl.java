@@ -3,6 +3,7 @@ package guru.springfamework.services;
 import guru.springfamework.api.v1.mapper.VendorMapper;
 import guru.springfamework.api.v1.model.CustomerDTO;
 import guru.springfamework.api.v1.model.VendorDTO;
+import guru.springfamework.domain.Vendor;
 import guru.springfamework.repositories.VendorRepository;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,19 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public VendorDTO createNewVendor(VendorDTO vendorDTO) {
-        return null;
+        Vendor vendor = vendorMapper.vendorDTOtoVendor(vendorDTO);
+
+        return saveAndReturnDTO(vendor);
+    }
+
+    private VendorDTO saveAndReturnDTO(Vendor vendor) {
+        Vendor savedVendor = vendorRepository.save(vendor);
+
+        VendorDTO returnDTO = vendorMapper.vendorToVendorDTO(savedVendor);
+
+        addUrlToVendorDTO(returnDTO, savedVendor.getId());
+
+        return returnDTO;
     }
 
     @Override
