@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -115,7 +114,7 @@ public class CustomerServiceImplTest {
         when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
 
         //when
-        CustomerDTO savedDTO = customerService.saveCustomerByDTO(1L, customerDTO);
+        CustomerDTO savedDTO = customerService.replaceCustomerById(1L, customerDTO);
 
         //
         assertEquals(customerDTO.getFirstName(), savedDTO.getFirstName());

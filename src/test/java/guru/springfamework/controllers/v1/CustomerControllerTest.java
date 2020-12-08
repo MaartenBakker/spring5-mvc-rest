@@ -123,7 +123,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
         returnCustomerDto.setLastName(customerDto.getLastName());
         returnCustomerDto.setCustomerUrl(CUSTOMER_URL_ID_1);
 
-        when(customerService.saveCustomerByDTO(anyLong(), any(CustomerDTO.class))).thenReturn(returnCustomerDto);
+        when(customerService.replaceCustomerById(anyLong(), any(CustomerDTO.class))).thenReturn(returnCustomerDto);
 
         //when/then
         mockMvc.perform(put(CUSTOMER_URL_ID_1)
@@ -146,7 +146,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
         returnDTO.setLastName(LAST_NAME);
         returnDTO.setCustomerUrl(CUSTOMER_URL_ID_1);
 
-        when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
+        when(customerService.updateCustomerById(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
         //then/when
         mockMvc.perform(patch(CUSTOMER_URL_ID_1)

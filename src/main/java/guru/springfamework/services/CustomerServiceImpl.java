@@ -22,8 +22,8 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerMapper = customerMapper;
     }
 
-    private CustomerDTO addCustomerUrlToDTO(CustomerDTO customerDTO, Long id) {
-        customerDTO.setCustomerUrl(CUSTOMERS_URL + id);
+    private CustomerDTO addCustomerUrlToDTO(CustomerDTO customerDTO, Long Id) {
+        customerDTO.setCustomerUrl(CUSTOMERS_URL + Id);
 
         return customerDTO;
     }
@@ -43,11 +43,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getCustomerById(Long id) {
+    public CustomerDTO getCustomerById(Long Id) {
 
-        return customerRepository.findById(id)
+        return customerRepository.findById(Id)
                 .map(customerMapper::customerToCustomerDTO)
-                .map(customer -> addCustomerUrlToDTO(customer, id)).orElseThrow(ResourceNotFoundException::new);
+                .map(customer -> addCustomerUrlToDTO(customer, Id)).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -68,16 +68,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO saveCustomerByDTO(Long id, CustomerDTO customerDTO) {
+    public CustomerDTO replaceCustomerById(Long Id, CustomerDTO customerDTO) {
         Customer customer = customerMapper.customerDTOtoCustomer(customerDTO);
-        customer.setId(id);
+        customer.setId(Id);
 
         return saveAndReturnDTO(customer);
     }
 
     @Override
-    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
-        return customerRepository.findById(id).map(customer -> {
+    public CustomerDTO updateCustomerById(Long Id, CustomerDTO customerDTO) {
+        return customerRepository.findById(Id).map(customer -> {
            if(customerDTO.getFirstName() != null) {
                customer.setFirstName(customerDTO.getFirstName());
            }
@@ -87,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
            }
 
            CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
-           addCustomerUrlToDTO(returnDTO, id);
+           addCustomerUrlToDTO(returnDTO, Id);
 
            return returnDTO;
 
@@ -95,7 +95,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomerById(Long id) {
-        customerRepository.deleteById(id);
+    public void deleteCustomerById(Long Id) {
+        customerRepository.deleteById(Id);
     }
 }

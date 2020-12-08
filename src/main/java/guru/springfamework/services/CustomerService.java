@@ -9,13 +9,13 @@ public interface CustomerService {
 
     List<CustomerDTO> getAllCustomers();
 
-    CustomerDTO getCustomerById(Long id);
+    CustomerDTO getCustomerById(Long Id);
 
     CustomerDTO createNewCustomer(CustomerDTO customerDTO);
 
-    CustomerDTO saveCustomerByDTO(Long id, CustomerDTO customerDTO);
+    CustomerDTO replaceCustomerById(Long Id, CustomerDTO customerDTO);
 
-    CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO);
+    CustomerDTO updateCustomerById(Long Id, CustomerDTO customerDTO);
 
-    void deleteCustomerById(Long id);
+    void deleteCustomerById(Long Id);
 }
