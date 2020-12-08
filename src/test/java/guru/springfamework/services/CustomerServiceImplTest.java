@@ -100,7 +100,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void saveCustomerByDTO() {
+    public void replaceCustomerById() {
         //given
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setFirstName(FIRST_NAME);
