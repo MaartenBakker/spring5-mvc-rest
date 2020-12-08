@@ -17,7 +17,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public List<CustomerDTO> getAllVendors() {
+    public List<VendorDTO> getAllVendors() {
         return null;
     }
 

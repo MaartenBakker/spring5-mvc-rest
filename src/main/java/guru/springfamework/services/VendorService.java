@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface VendorService {
 
-    List<CustomerDTO> getAllVendors();
+    List<VendorDTO> getAllVendors();
 
     VendorDTO getVendorById(Long Id);
 
