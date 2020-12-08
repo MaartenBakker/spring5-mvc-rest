@@ -7,6 +7,10 @@ import static org.junit.Assert.*;
 
 public class VendorServiceImplTest {
 
+    public static final String URL_PREFIX = "/api/v1/vendors/";
+    public static final Long ID = 1L;
+    public static final String VENDOR_NAME = "Pot Vendory";
+
     @Before
     public void setUp() throws Exception {
     }
