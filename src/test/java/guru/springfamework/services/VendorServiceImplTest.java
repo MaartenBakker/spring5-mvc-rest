@@ -11,8 +11,10 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 public class VendorServiceImplTest {
@@ -54,6 +56,20 @@ public class VendorServiceImplTest {
 
     @Test
     public void getVendorById() {
+        //given
+        Vendor vendor = new Vendor();
+        vendor.setId(ID);
+        vendor.setName(VENDOR_NAME);
+
+        when(vendorRepository.findById(anyLong())).thenReturn(Optional.of(vendor));
+
+        //when
+        VendorDTO vendorDTO = vendorService.getVendorById(ID);
+
+        //then
+        assertNotNull(vendorDTO);
+        assertEquals(VENDOR_NAME, vendorDTO.getName());
+        assertEquals(URL_VENDORS_ID_1, vendorDTO.getVendorUrl());
     }
 
     @Test
