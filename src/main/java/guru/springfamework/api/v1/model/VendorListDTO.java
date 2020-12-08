@@ -3,11 +3,12 @@ package guru.springfamework.api.v1.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
-public class CategoryListDTO {
+public class VendorListDTO {
 
-    List<CategoryDTO> categories;
+    private ArrayList<VendorDTO> vendors;
+
 }
